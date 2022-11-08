@@ -12,6 +12,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.efaso.nativetemplates.NativeTemplateStyle;
 import com.efaso.nativetemplates.TemplateView;
@@ -131,14 +132,20 @@ public class AdmobNativeAdAdapter extends RecyclerViewAdapterWrapper {
 		}
 	}
 
-	@Override
-	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+	 @Override
+	    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		if (getItemViewType(position) == TYPE_FB_NATIVE_ADS) {
-			onBindAdViewHolder(holder);
+		    ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+		    if (mParam.layout !=1 ){
+			StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+			p.setFullSpan(true);
+		    }
+		    onBindAdViewHolder(holder);
 		} else {
-			super.onBindViewHolder(holder, convertAdPosition2OrgPosition(position));
+		    super.onBindViewHolder(holder, convertAdPosition2OrgPosition(position));
+
 		}
-	}
+	    }
 
 	private RecyclerView.ViewHolder onCreateAdViewHolder(ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
